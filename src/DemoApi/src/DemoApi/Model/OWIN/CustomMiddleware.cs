@@ -24,6 +24,7 @@ namespace DemoApi.Model.OWIN
 
             if (auth == null)
             {
+                await _next.Invoke(context);
                 return;
             }
 
@@ -31,6 +32,7 @@ namespace DemoApi.Model.OWIN
 
             if (userClaims?.Count() == 0)
             {
+                await _next.Invoke(context);
                 return;
             }
 
