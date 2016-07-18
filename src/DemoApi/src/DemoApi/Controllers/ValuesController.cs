@@ -12,10 +12,12 @@ namespace DemoApi.Controllers
     public class ValuesController : Controller
     {
         private readonly ISampleService _sampleService;
+        private readonly IUserService _userService;
 
-        public ValuesController(ISampleService sampleService)
+        public ValuesController(ISampleService sampleService, IUserService userService)
         {
             _sampleService = sampleService;
+            _userService = userService;
         }
 
         // GET api/values
@@ -24,7 +26,7 @@ namespace DemoApi.Controllers
         public IEnumerable<string> Get()
         {
             var sampleResult = _sampleService.GetSomeValue();
-            return new string[] { "val22333ue8", sampleResult };
+            return new string[] { "Name", _userService.Name };
         }
 
         // GET api/values/5

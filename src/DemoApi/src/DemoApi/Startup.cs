@@ -5,10 +5,13 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using DemoApi.Model.Contract;
 using DemoApi.Model.Entity;
 using DemoApi.Model.Filters;
 using DemoApi.Model.OWIN;
+using DemoApi.Model.Quick;
 using DemoApi.Model.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -65,6 +68,8 @@ namespace DemoApi
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
+
+
             builder.Populate(services);
             this.ApplicationContainer = builder.Build();
 
@@ -74,26 +79,37 @@ namespace DemoApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory,
-            IOptions<SigningSettings> signingSettings)
+            IOptions<SigningSettings> signingSettings, IJwtEventBasedResponseService response)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseBrowserLink();
 
-            app.XUseJwtBearerAuthentication(new XJwtBearerOptions
+            //app.XUseJwtBearerAuthentication(new XJwtBearerOptions
+            //{
+            //    ValiationEndpoint = signingSettings.Value.ValidationEndpoint,
+            //    Audience = signingSettings.Value.TokenAllowedAudience,
+            //    ClaimsIssuer = signingSettings.Value.TokenValidIssuer,
+            //    RsaPublicKey = signingSettings.Value.RSAPublic,
+            //    AuthenticationScheme = "Bearer"
+            //});
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
-                ValiationEndpoint = signingSettings.Value.ValidationEndpoint,
-                Audience = signingSettings.Value.TokenAllowedAudience,
-                ClaimsIssuer = signingSettings.Value.TokenValidIssuer,
-                RsaPublicKey = signingSettings.Value.RSAPublic,
-                AuthenticationScheme = "Bearer"
+                Events = new JwtBearerEvents()
+                {
+                    OnMessageReceived = response.OnMessageReceived
+                }
             });
+
 
             app.UseMiddleware<CustomMiddleware>();
 
             app.UseMvc();
 
         }
+
+        
     }
 }
