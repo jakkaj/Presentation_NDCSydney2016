@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using AzureFunctionsToolkit.Extensions;
-using Microsoft.IdentityModel.Protocols;
+﻿using System.Threading.Tasks;
+using AzureFunctionsToolkit.Portable.Extensions;
 
 namespace JWTNetTestBed
 {

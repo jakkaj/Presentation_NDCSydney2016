@@ -19,6 +19,10 @@ namespace DemoApi.Model.OWIN
             AutomaticAuthenticate = true;
             AutomaticChallenge = true;
         }
+
+        public string ValiationEndpoint { get; set; }
+
+        public string RsaPublicKey { get; set; }
         
     }
 }

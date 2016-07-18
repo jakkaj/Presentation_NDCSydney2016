@@ -18,7 +18,9 @@
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc3-309",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Microsoft.AspNetCore.Authentication": "1.0.0",
-    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0"
+    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
+    "AzureFunctionsToolkit": "0.3.7",
+    "TokenFunctionHelper": "1.0.0-*"
   },
 
   "tools": {
@@ -57,5 +59,6 @@
 
   "scripts": {
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
-  }
+  },
+  "userSecretsId": "aspnet-DemoApi-20160718111342"
 }

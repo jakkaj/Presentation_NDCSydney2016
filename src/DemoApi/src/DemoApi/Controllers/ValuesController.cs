@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DemoApi.Model.Contract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoApi.Controllers
@@ -19,6 +20,7 @@ namespace DemoApi.Controllers
 
         // GET api/values
         [HttpGet]
+        
         public IEnumerable<string> Get()
         {
             var sampleResult = _sampleService.GetSomeValue();

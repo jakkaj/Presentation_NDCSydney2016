@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
+using TokenFunctionHelper;
 
 namespace DemoApi.Model.OWIN
 {
@@ -50,56 +51,59 @@ namespace DemoApi.Model.OWIN
                 {
                     return AuthenticateResult.Skip();
                 }
-                if (false)
-                {
-                    var principal = new ClaimsPrincipal();
 
-                    var ticket = new AuthenticationTicket(principal, new AuthenticationProperties(), Options.AuthenticationScheme);
+                //validate the token
+
+                var remoteAuthResult =
+                    await
+                        TokenValidator.Validate(Options.ValiationEndpoint, token, Options.RsaPublicKey,
+                            Options.ClaimsIssuer, Options.Audience);
+
+                if (remoteAuthResult.IsValid)
+                {
+                    var claims = new List<Claim>();
+
+                    foreach (var claim in remoteAuthResult.Claims)
+                    {
+                        claims.Add(new Claim(claim.Key, claim.Value));
+                    }
+
+                    var principal = new ClaimsPrincipal(new ClaimsIdentity(claims));
+
+                    var ticket = new AuthenticationTicket(principal, new AuthenticationProperties(),
+                        Options.AuthenticationScheme);
 
                     if (Options.SaveToken)
                     {
                         ticket.Properties.StoreTokens(new[]
                         {
-                                new AuthenticationToken { Name = "access_token", Value = token }
-                            });
+                            new AuthenticationToken {Name = "access_token", Value = token}
+                        });
                     }
 
                     return AuthenticateResult.Success(ticket);
                 }
-                if (validationFailures != null)
-                {
-                    var authenticationFailedContext = new AuthenticationFailedContext(Context, Options)
-                    {
-                        Exception = (validationFailures.Count == 1) ? validationFailures[0] : new AggregateException(validationFailures)
-                    };
 
-                    await Options.Events.AuthenticationFailed(authenticationFailedContext);
-                    if (authenticationFailedContext.CheckEventResult(out result))
-                    {
-                        return result;
-                    }
-
-                    return AuthenticateResult.Fail(authenticationFailedContext.Exception);
-                }
-
-                return AuthenticateResult.Fail("No SecurityTokenValidator available for token: " + token ?? "[null]");
-            }
-            catch (Exception ex)
-            {
                 var authenticationFailedContext = new AuthenticationFailedContext(Context, Options)
                 {
-                    Exception = ex
+                    Exception = new RemoteValidationFail(remoteAuthResult.FailReason)
                 };
 
                 await Options.Events.AuthenticationFailed(authenticationFailedContext);
+
                 if (authenticationFailedContext.CheckEventResult(out result))
                 {
                     return result;
                 }
 
-                throw;
+                return AuthenticateResult.Fail(authenticationFailedContext.Exception);
+            }
+            catch (Exception ex)
+            {
+                return AuthenticateResult.Fail(ex);
             }
         }
+
 
         protected override async Task<bool> HandleUnauthorizedAsync(ChallengeContext context)
         {
@@ -190,38 +194,16 @@ namespace DemoApi.Model.OWIN
             {
                 // Order sensitive, some of these exceptions derive from others
                 // and we want to display the most specific message possible.
-                if (ex is SecurityTokenInvalidAudienceException)
+                if (ex is RemoteValidationFail)
                 {
-                    messages.Add("The audience is invalid");
+
+                    messages.Add($"Validation server rejected token: {ex.Message}");
                 }
-                else if (ex is SecurityTokenInvalidIssuerException)
+                else
                 {
-                    messages.Add("The issuer is invalid");
+                    messages.Add($"Random exception we don't particularly handle: {ex.Message}");
                 }
-                else if (ex is SecurityTokenNoExpirationException)
-                {
-                    messages.Add("The token has no expiration");
-                }
-                else if (ex is SecurityTokenInvalidLifetimeException)
-                {
-                    messages.Add("The token lifetime is invalid");
-                }
-                else if (ex is SecurityTokenNotYetValidException)
-                {
-                    messages.Add("The token is not valid yet");
-                }
-                else if (ex is SecurityTokenExpiredException)
-                {
-                    messages.Add("The token is expired");
-                }
-                else if (ex is SecurityTokenSignatureKeyNotFoundException)
-                {
-                    messages.Add("The signature key was not found");
-                }
-                else if (ex is SecurityTokenInvalidSignatureException)
-                {
-                    messages.Add("The signature is invalid");
-                }
+               
             }
 
             return string.Join("; ", messages);
