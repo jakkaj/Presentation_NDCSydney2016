@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -9,6 +10,13 @@ namespace DemoApi.Model.Service
 {
     public class UserService : IUserService
     {
+        
+        public UserService()
+        {
+            Debug.WriteLine("*************** setup");
+        }
+
+
         public string Name { get; set; }
         public string Id { get; set; }
 

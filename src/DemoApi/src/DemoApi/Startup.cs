@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using DemoApi.Model.Contract;
+﻿using DemoApi.Model.Contract;
 using DemoApi.Model.Entity;
 using DemoApi.Model.Filters;
 using DemoApi.Model.OWIN;
@@ -19,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DemoApi
 {
@@ -43,9 +35,9 @@ namespace DemoApi
         }
 
         public IConfigurationRoot Configuration { get; }
-        public IContainer ApplicationContainer { get; private set; }
+        
         // This method gets called by the runtime. Use this method to add services to the container
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
 
@@ -60,20 +52,10 @@ namespace DemoApi
             {
                 _.Filters.Add(new XAuthorizeFilter(justBeSignedIn));
             });
-
-            var builder = new ContainerBuilder();
-
-            builder.RegisterAssemblyTypes(typeof(SampleService).GetTypeInfo().Assembly)
-                .Where(t => t.Name.EndsWith("Service") || t.Name.EndsWith("Repo"))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-
-
-            builder.Populate(services);
-            this.ApplicationContainer = builder.Build();
-
-            return new AutofacServiceProvider(this.ApplicationContainer);
+            
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISampleService, SampleService>();
+            services.AddScoped<IJwtEventBasedResponseService, JwtEventBasedResponseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

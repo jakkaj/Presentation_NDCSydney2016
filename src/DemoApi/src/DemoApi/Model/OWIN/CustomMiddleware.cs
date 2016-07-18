@@ -10,15 +10,15 @@ namespace DemoApi.Model.OWIN
     public class CustomMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IUserService _userService;
+       
 
-        public CustomMiddleware(RequestDelegate next, IUserService userService)
+        public CustomMiddleware(RequestDelegate next)
         {
             _next = next;
-            _userService = userService;
+            
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, IUserService userService)
         {
             var auth = context.User;
 
@@ -34,7 +34,7 @@ namespace DemoApi.Model.OWIN
                 return;
             }
 
-            await _userService.SetupUser(userClaims);
+            await userService.SetupUser(userClaims);
 
             await _next.Invoke(context);
         }
