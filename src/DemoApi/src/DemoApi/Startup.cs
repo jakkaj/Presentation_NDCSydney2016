@@ -1,8 +1,6 @@
 ﻿using DemoApi.Model.Contract;
-using DemoApi.Model.Entity;
 using DemoApi.Model.Filters;
 using DemoApi.Model.OWIN;
-using DemoApi.Model.Quick;
 using DemoApi.Model.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TokenFunctionHelper.Contract;
+using TokenFunctionHelper.Entity;
+using TokenFunctionHelper.TokenStuff;
 
 namespace DemoApi
 {
@@ -19,6 +20,7 @@ namespace DemoApi
     {
         public Startup(IHostingEnvironment env)
         {
+            
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

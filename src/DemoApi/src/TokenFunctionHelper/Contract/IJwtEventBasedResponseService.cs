@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace DemoApi.Model.Contract
+namespace TokenFunctionHelper.Contract
 {
     public interface IJwtEventBasedResponseService
     {

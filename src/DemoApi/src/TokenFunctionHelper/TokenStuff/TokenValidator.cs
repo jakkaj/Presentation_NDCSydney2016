@@ -1,10 +1,7 @@
-﻿using AzureFunctionsToolkit.Standard.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ExtensionGoo.Standard.Extensions;
 using System.Threading.Tasks;
 
-namespace TokenFunctionHelper
+namespace TokenFunctionHelper.TokenStuff
 {
     public static class TokenValidator
     {

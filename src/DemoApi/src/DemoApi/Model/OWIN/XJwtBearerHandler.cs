@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using TokenFunctionHelper;
+using TokenFunctionHelper.TokenStuff;
 
 namespace DemoApi.Model.OWIN
 {

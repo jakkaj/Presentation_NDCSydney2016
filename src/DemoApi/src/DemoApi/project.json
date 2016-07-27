@@ -18,8 +18,8 @@
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Microsoft.AspNetCore.Authentication": "1.0.0",
     "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
-    "AzureFunctionsToolkit": "0.3.7",
-    "TokenFunctionHelper": "1.0.0-*"
+    "ExtensionGoo": "0.0.3"
+   
   },
 
   "tools": {
@@ -31,7 +31,13 @@
       "imports": [
         "dotnet5.6",
         "portable-net45+win8"
-      ]
+      ],
+      "dependencies": {
+        "TokenFunctionHelper": {
+          "Version": "1.0.0-*",
+          "target": "project"
+        }
+      }
     }
   },
 

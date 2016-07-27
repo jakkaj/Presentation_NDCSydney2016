@@ -1,33 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
-using CoreAuthenticationServer.Model;
 using CoreAuthenticationServer.Model.Contract;
 using CoreAuthenticationServer.Model.Entity;
 using CoreAuthenticationServer.Model.Extension;
 using CoreAuthenticationServer.Model.Service;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Protocols;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CoreAuthenticationServer
 {
@@ -75,6 +58,7 @@ namespace CoreAuthenticationServer
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
 
             var options = app.ApplicationServices.GetRequiredService<IOptions<OpenIdConnectOptions>>();
+
             app.UseOpenIdConnectAuthentication(options.Value);
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));

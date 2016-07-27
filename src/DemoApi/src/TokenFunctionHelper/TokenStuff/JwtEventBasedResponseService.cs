@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using DemoApi.Model.Contract;
-using DemoApi.Model.Entity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.Extensions.Options;
-using TokenFunctionHelper;
+using TokenFunctionHelper.Contract;
+using TokenFunctionHelper.Entity;
 
-namespace DemoApi.Model.Quick
+namespace TokenFunctionHelper.TokenStuff
 {
     public class JwtEventBasedResponseService : IJwtEventBasedResponseService
     {
