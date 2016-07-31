@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DemoApi.Model.Contract;
 using Microsoft.AspNetCore.Http;
+using TokenFunctionHelper.Contract;
 
 namespace DemoApi.Model.OWIN
 {
@@ -29,12 +29,6 @@ namespace DemoApi.Model.OWIN
             }
 
             var userClaims = auth.Claims;
-
-            if (userClaims?.Count() == 0)
-            {
-                await _next.Invoke(context);
-                return;
-            }
 
             await userService.SetupUser(userClaims);
 

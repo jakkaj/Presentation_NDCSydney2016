@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace DemoApi.Model.Contract
+namespace TokenFunctionHelper.Contract
 {
     public interface IUserService
     {

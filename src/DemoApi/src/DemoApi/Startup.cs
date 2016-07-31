@@ -1,7 +1,5 @@
-﻿using DemoApi.Model.Contract;
-using DemoApi.Model.Filters;
+﻿using DemoApi.Model.Filters;
 using DemoApi.Model.OWIN;
-using DemoApi.Model.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TokenFunctionHelper.Contract;
 using TokenFunctionHelper.Entity;
+using TokenFunctionHelper.Service;
 using TokenFunctionHelper.TokenStuff;
 
 namespace DemoApi

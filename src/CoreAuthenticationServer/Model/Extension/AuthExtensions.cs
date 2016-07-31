@@ -39,6 +39,7 @@ namespace CoreAuthenticationServer.Model.Extension
                 options.ResponseType = "id_token";
                 options.AuthenticationScheme = "oidc";
                 options.CallbackPath = "/signin-oidc";
+               
                 options.ConfigurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(configMetadataUrl,
                     new OpenIdConnectConfigurationRetriever());
 

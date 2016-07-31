@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using DemoApi.Model.Contract;
+using TokenFunctionHelper.Contract;
 
-namespace DemoApi.Model.Service
+namespace TokenFunctionHelper.Service
 {
     public class UserService : IUserService
     {
@@ -23,6 +22,12 @@ namespace DemoApi.Model.Service
         public async Task SetupUser(IEnumerable<Claim> claims)
         {
             var surname = claims.FirstOrDefault(_ => _.Type == ClaimTypes.Surname)?.Value;
+
+            if (string.IsNullOrWhiteSpace(surname))
+            {
+                return;
+            }
+
             var firstName = claims.FirstOrDefault(_ => _.Type == ClaimTypes.GivenName)?.Value;
             var id = claims.FirstOrDefault(_ => _.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
 

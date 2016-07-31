@@ -1,4 +1,4 @@
-﻿namespace DemoApi.Model.Contract
+﻿namespace TokenFunctionHelper.Contract
 {
     public interface ISampleService
     {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DemoApi.Model.Contract;
+﻿using TokenFunctionHelper.Contract;
 
-namespace DemoApi.Model.Service
+namespace TokenFunctionHelper.Service
 {
     public class SampleService : ISampleService
     {
