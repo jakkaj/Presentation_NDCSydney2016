@@ -74,6 +74,7 @@ namespace CoreAuthenticationServer
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            //https://github.com/aspnet/StaticFiles/blob/dev/src/Microsoft.AspNetCore.StaticFiles/StaticFileExtensions.cs
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
